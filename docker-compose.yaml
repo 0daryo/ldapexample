@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  openldap:
+    image: osixia/openldap:1.5.0
+    container_name: openldap
+    ports:
+      - "389:389"
+      - "636:636"
+    environment:
+      LDAP_ORGANISATION: "Example Corp."
+      LDAP_DOMAIN: "example.com"
+      LDAP_BASE_DN: "dc=example,dc=com"
+      LDAP_ADMIN_PASSWORD: "adminpassword"
+    volumes:
+      - ./ldap-data:/var/lib/ldap
+      - ./ldap-config:/etc/ldap/slapd.d
+      - ./bootstrap:/container/service/slapd/assets/config/bootstrap/ldif
+    restart: unless-stopped
+
+  phpldapadmin: 
+    image: osixia/phpldapadmin:0.9.0
+    container_name: phpldapadmin
+    ports:
+      - "8080:80"
+    environment:
+      PHPLDAPADMIN_LDAP_HOSTS: openldap
+      PHPLDAPADMIN_HTTPS: "false"
+    depends_on:
+      - openldap
+    restart: unless-stopped
+
+  dex:
+    image: ghcr.io/dexidp/dex:v2.37.0
+    container_name: dex
+    ports:
+      - "5556:5556"
+    volumes:
+      - ./dex-config:/etc/dex
+    command: ["dex", "serve", "/etc/dex/config.yaml"]
+    depends_on:
+      - openldap
+    restart: unless-stopped

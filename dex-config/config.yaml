@@ -1,0 +1,38 @@
+issuer: http://localhost:5556
+
+storage:
+  type: memory
+
+web:
+  http: 0.0.0.0:5556
+
+staticClients:
+  - id: example-app
+    redirectURIs:
+      - 'http://localhost:80/callback'
+    name: 'Example App'
+    secret: example-secret
+
+connectors:
+  - type: ldap
+    id: ldap
+    name: OpenLDAP
+    config:
+      host: openldap:389
+      insecureNoSSL: true
+      bindDN: "cn=admin,dc=example,dc=com"
+      bindPW: "adminpassword"
+      userSearch:
+        baseDN: "dc=example,dc=com"
+        filter: "(objectClass=inetOrgPerson)"
+        username: uid
+        idAttr: uid
+        emailAttr: mail
+        nameAttr: cn
+      groupSearch:
+        baseDN: "dc=example,dc=com"
+        filter: "(objectClass=groupOfNames)"
+        userMatchers:
+          - userAttr: DN
+            groupAttr: member
+        nameAttr: cn
