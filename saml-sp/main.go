@@ -67,5 +67,10 @@ func main() {
 	app := http.HandlerFunc(hello)
 	http.Handle("/hello", samlSP.RequireAccount(app))
 	http.Handle("/saml/", samlSP)
+	http.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {
+		samlSP.Session.DeleteSession(w, r)
+		http.Redirect(w, r, "/", http.StatusFound)
+	})
+
 	http.ListenAndServe(":3000", nil)
 }
