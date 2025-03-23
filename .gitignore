@@ -1,2 +1,4 @@
 ldap-config
 ldap-data
+
+*.pem

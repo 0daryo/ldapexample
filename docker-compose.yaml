@@ -15,7 +15,6 @@ services:
     volumes:
       - ./ldap-data:/var/lib/ldap
       - ./ldap-config:/etc/ldap/slapd.d
-      - ./bootstrap:/container/service/slapd/assets/config/bootstrap/ldif
     restart: unless-stopped
 
   phpldapadmin: 
@@ -38,6 +37,19 @@ services:
     volumes:
       - ./dex-config:/etc/dex
     command: ["dex", "serve", "/etc/dex/config.yaml"]
+    depends_on:
+      - openldap
+    restart: unless-stopped
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: adminpassword
+    command: start-dev
+    ports:
+      - "18080:8080"
     depends_on:
       - openldap
     restart: unless-stopped
