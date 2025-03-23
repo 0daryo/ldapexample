@@ -5,12 +5,10 @@ import (
 	"crypto/rsa"
 	"crypto/tls"
 	"crypto/x509"
-	"encoding/pem"
 	"fmt"
 	"log"
 	"net/http"
 	"net/url"
-	"os"
 
 	"github.com/crewjam/saml/samlsp"
 )
@@ -70,11 +68,4 @@ func main() {
 	http.Handle("/hello", samlSP.RequireAccount(app))
 	http.Handle("/saml/", samlSP)
 	http.ListenAndServe(":3000", nil)
-}
-
-func loadPrivateKey(path string) *rsa.PrivateKey {
-	data, _ := os.ReadFile(path)
-	block, _ := pem.Decode(data)
-	key, _ := x509.ParsePKCS1PrivateKey(block.Bytes)
-	return key
 }
