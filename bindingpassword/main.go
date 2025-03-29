@@ -14,8 +14,8 @@ func main() {
 	}
 	defer l.Close()
 	username := "ryotaro"
-	password := "1111"
-	userDN := fmt.Sprintf("cn=%s,dc=example,dc=com", username)
+	password := "Ryotaro@123"
+	userDN := fmt.Sprintf("cn=%s,ou=devops,dc=example,dc=com", username)
 
 	err = l.Bind(userDN, password)
 	if err != nil {

@@ -9,12 +9,12 @@ ou: devops
 EOF
 
 $ ldapadd -x -D "cn=admin,dc=example,dc=com" -w adminpassword <<EOF
-dn: cn=amrutha,ou=devops,dc=example,dc=com
+dn: cn=ryotaro,ou=devops,dc=example,dc=com
 objectClass: inetOrgPerson
-cn: amrutha
-sn: Amrutha
-uid: amrutha
-userPassword: Amrutha@123
+cn: ryotaro
+sn: Ryotaro
+uid: ryotaro
+userPassword: Ryotaro@123
 EOF
 
 ```
