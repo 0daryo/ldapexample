@@ -14,6 +14,7 @@ objectClass: inetOrgPerson
 cn: ryotaro
 sn: Ryotaro
 uid: ryotaro
+mail: ryotaro@example.com
 userPassword: Ryotaro@123
 EOF
 

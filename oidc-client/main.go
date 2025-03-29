@@ -39,7 +39,6 @@ func main() {
 	http.HandleFunc("/", homeHandler)
 	http.HandleFunc("/login", loginHandler)
 	http.HandleFunc("/callback", callbackHandler)
-
 	fmt.Println("OIDC client running at: http://localhost:80")
 	log.Fatal(http.ListenAndServe(":80", nil))
 }
